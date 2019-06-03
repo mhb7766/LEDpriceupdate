@@ -7,7 +7,9 @@ from tkinter import *
 from tkinter.filedialog import askopenfilename
 from openpyxl.utils import get_column_letter
 from openpyxl.utils import column_index_from_string
+import numpy as np
 import pandas as pd
+
 
 #change directory
 os.chdir('c:\\users\\mike\\pictures\\led')
@@ -15,6 +17,8 @@ os.chdir('c:\\users\\mike\\pictures\\led')
 #read and merge datasets
 left = pd.read_csv('example.csv')
 right = pd.read_csv('allmax_ex.csv')
+joined = pd.merge(left, right, how="left", left_on="productcode", right_on="Item#")
+joined.to_csv(index=False)
 
 #set markup
 markup = 1.33
@@ -23,7 +27,7 @@ col_alpha = "H"
 col = column_index_from_string(col_alpha)
 
 #choose pricesheet
-#input("Hit enter to choose price sheet ")
+input("Hit enter to choose price sheet ")
 #Tk().withdraw()
 pricesheet="allmax_ex.xlsx"
 
@@ -38,8 +42,8 @@ li = openpyxl.load_workbook(currentlistings)
 listings = li['onsite']
 
 #enter VLOOKUP formula data
-for ind in range (2,listings.max_row):
-	listings.cell(row=ind, column=3, value="=VLOOKUP(A2,'file:///C:/Users/mike/Pictures/led/allmax_ex.xlsx'#$Sheet1.A$2:I$80,8,0)")
+#for ind in range (2,listings.max_row):
+#	listings.cell(row=ind, column=3, value="=VLOOKUP(A2,'file:///C:/Users/mike/Pictures/led/allmax_ex.xlsx'#$Sheet1.A$2:I$80,8,0)")
 
 #create new workbook for updated data and name columns
 new = Workbook()
