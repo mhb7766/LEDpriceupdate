@@ -17,8 +17,7 @@ os.chdir('c:\\users\\mike\\pictures\\led')
 #read and merge datasets
 left = pd.read_csv('example.csv')
 right = pd.read_csv('allmax_ex.csv')
-joined = pd.merge(left, right, how="left", left_on="productcode", right_on="Item#")
-newsheet = joined.to_csv(path_or_buf="readyforupload.csv", index=False)
+joined = pd.merge(left, right, how="left", left_on="productcode", right_on="Item No")
 
 #set markup
 markup = 1.33
@@ -27,7 +26,7 @@ col_alpha = "H"
 col = column_index_from_string(col_alpha)
 
 #choose pricesheet
-#input("Hit enter to choose price sheet ")
+input("Hit enter to choose price sheet ")
 #Tk().withdraw()
 pricesheet="allmax_ex.xlsx"
 
@@ -73,4 +72,4 @@ for i in range (2, price.max_row):
 #Tk().withdraw()
 #savelocation=askopenfilename()
 #new.save(savelocation)
-#new.save('readyforupload.xlsx')
+new.save('readyforupload.xlsx')
