@@ -8,10 +8,6 @@ import time
 #set directory
 os.chdir('c:\\users\\mike\\pictures\\led')
 
-#maybe get name of column where price will be updated?
-
-
-
 #set markup
 markup = 1.33
 
@@ -22,11 +18,14 @@ right = pd.read_csv('allmax_ex.csv')
 #use pandas to merge
 joined = pd.merge(left, right, how="left", left_on="productcode", right_on="Item#")
 
+#maybe get name of column where price will be updated?
+updatecol = "A Price"
+
 #calculate price
-joined['A Price'] = joined['A Price'].multiply(markup)
+joined[updatecol] = joined[updatecol].multiply(markup)
 
 #rename price column
-joined.rename(inplace=True, columns={"A Price": "productprice"})
+joined.rename(inplace=True, columns={updatecol: "productprice"})
 
 #delete records with no price update
 joined = joined[pd.notnull(joined['productprice'])]
