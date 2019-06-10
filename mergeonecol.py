@@ -19,8 +19,7 @@ Tk().withdraw()
 newprice=askopenfilename()
 
 #get name of columns where price will be updated?
-saleprice_col = input("Enter column name containing new list price: ")
-hotprice_col = input("Enter column name containing new hot price: ")
+hotprice_col = input("Enter column name containing new price: ")
 
 #get name of column with productcode from price sheet
 productcode_col = input("Enter column name containg productcode on price sheet: ")
@@ -33,15 +32,11 @@ right = pd.read_csv(newprice)
 joined = pd.merge(left, right, how="left", left_on="productcode", right_on=productcode_col)
 
 #rename price column
-joined.rename(inplace=True, columns={saleprice_col: "productpricenew"})
-joined.rename(inplace=True, columns={hotprice_col: "hotpricenew"})
-
-#delete records with no price update
-joined = joined[pd.notnull(joined['productpricenew'])]
+joined.rename(inplace=True, columns={hotprice_col: "newprice"})
 
 #create unique filename
 timestr = time.strftime("%m%d%Y-%H%M%S")
 filename = "merged" + timestr + ".csv"
 
 #convert pandas dataframe to .csv and save (keeps only 'productcode and product price')
-newsheet = joined.to_csv(path_or_buf=filename, columns=["productcode","productprice","saleprice","productpricenew","hotpricenew"], index=False)
+newsheet = joined.to_csv(path_or_buf=filename, columns=["productcode","productprice","saleprice","newprice"], index=False)
