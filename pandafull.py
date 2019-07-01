@@ -17,10 +17,10 @@ import time
 os.chdir('c:\\users\\mike\\pictures\\led')
 
 #set markup
-markup = input("Enter markup scalar: ")
+markup = float(input("Enter markup scalar (eg 1.33): "))
 
 #get files
-input("Hit enter to choose current listings file")
+input("Hit enter to choose current listings file ")
 Tk().withdraw()
 currentprice=askopenfilename()
 
@@ -32,13 +32,16 @@ newprice=askopenfilename()
 left = pd.read_csv(currentprice)
 right = pd.read_csv(newprice)
 
+#delete existing "productprice" column
+left = left.drop(columns="productprice")
+
 #use pandas to merge
 joined = pd.merge(left, right, how="left", left_on="productcode", right_on="Item No")
 
 #get name of column where price will be updated
-updatecol = input("Enter column name containing new price")
+updatecol = input("Enter name of column containing new price ")
 
-#calculate price
+#calculate marked up price
 joined[updatecol] = joined[updatecol].multiply(markup)
 
 #rename price column
@@ -48,12 +51,17 @@ joined.rename(inplace=True, columns={updatecol: "productprice"})
 #ADD function to save new data frame with data that was not updated
 #######
 
+#create data frame for records not updated
+not_updated = joined[pd.isnull(joined['productprice'])]
+
 #delete records with no price update
-joined = joined[pd.notnull(joined['productprice'])]
+updated = joined[pd.notnull(joined['productprice'])]
 
 #create unique filename
 timestr = time.strftime("%m%d%Y-%H%M%S")
-filename = "readyforupoad" + timestr + ".csv"
+updated_filename = "updated_listings" + timestr + ".csv"
+not_updated_filename = "not_updated" + timestr + ".csv"
 
 #convert pandas dataframe to .csv and save (keeps only 'productcode and product price')
-newsheet = joined.to_csv(path_or_buf=filename, columns=["productcode","productprice"], index=False)
+updated_csv = updated.to_csv(path_or_buf=updated_filename, columns=["productcode","productprice"], index=False)
+not_updated_csv = not_updated.to_csv(path_or_buf=not_updated_filename, columns=["productcode","productprice"], index=False)
