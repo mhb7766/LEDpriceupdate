@@ -47,15 +47,16 @@ joined[updatecol] = joined[updatecol].multiply(markup)
 #rename price column
 joined.rename(inplace=True, columns={updatecol: "productprice"})
 
-#######
-#ADD function to save new data frame with data that was not updated
-#######
+#round price to two decimal places
+#joined["productprice"].round(2)
+#joined.round({"productprice": 2})
 
 #create data frame for records not updated
 not_updated = joined[pd.isnull(joined['productprice'])]
 
 #delete records with no price update
 updated = joined[pd.notnull(joined['productprice'])]
+updated.round({"productprice": 2})
 
 #create unique filename
 timestr = time.strftime("%m%d%Y-%H%M%S")
