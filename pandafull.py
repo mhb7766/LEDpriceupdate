@@ -40,20 +40,25 @@ input("Hit enter to choose new price sheet ")
 Tk().withdraw()
 newprice=askopenfilename()
 
+#get column name for product code on new price sheet
 productcode_right = input("Enter name of column containing productcode on new price sheet: ")
+
+#get name of column where price will be updated
+updatecol = input("Enter name of column containing new price ")
 
 #read datasets
 left = pd.read_csv(currentprice)
 right = pd.read_csv(newprice)
+
+#delete rows containing zero price
+right = right[right[updatecol] != 0]
+print(right)
 
 #rename existing "productprice"/"saleprice" column
 left.rename(inplace=True, columns={newpricecol: "oldprice"})
 
 #use pandas to merge
 joined = pd.merge(left, right, how="left", left_on="productcode", right_on=productcode_right)
-
-#get name of column where price will be updated
-updatecol = input("Enter name of column containing new price ")
 
 #calculate marked up price
 joined[updatecol] = joined[updatecol].multiply(markup)
@@ -63,10 +68,12 @@ joined.rename(inplace=True, columns={updatecol: newpricecol})
 
 #create data frame for records not updated
 not_updated = joined[pd.isnull(joined[newpricecol])]
+#get count for unmatched records
 unmatched = str(len(not_updated.index))
 
 #delete records with no price update
 updated = joined[pd.notnull(joined[newpricecol])]
+#get count for matched records
 matched = str(len(updated.index))
 
 #create unique filename
@@ -78,12 +85,14 @@ not_updated_filename = "not_updated" + timestr + ".csv"
 updated_csv = updated.to_csv(path_or_buf=updated_filename, columns=["productcode",newpricecol], index=False)
 not_updated_csv = not_updated.to_csv(path_or_buf=not_updated_filename, columns=["productcode",newpricecol], index=False)
 
+#create message for user
 window = Tk()
 window.wm_withdraw()
 
-#create message for user
+#build message
 countmessage = "Success!\n" + matched + " listings matched\n" + unmatched + " listings unmatched\n" + "Remember to update adder prices for matched products. This program only updates indentical SKU matches and will not change options" 
 
 #message at x:200,y:200
-window.geometry("1x1+200+200")#remember its .geometry("WidthxHeight(+or-)X(+or-)Y")
+window.geometry("1x1+200+200") #remember its .geometry("WidthxHeight(+or-)X(+or-)Y")
 messagebox.showinfo(title="Program Complete",message=countmessage,parent=window)
+print(countmessage)
