@@ -40,15 +40,17 @@ input("Hit enter to choose new price sheet ")
 Tk().withdraw()
 newprice=askopenfilename()
 
+productcode_right = input("Enter name of column containing productcode on new price sheet: ")
+
 #read datasets
 left = pd.read_csv(currentprice)
 right = pd.read_csv(newprice)
 
-#delete existing "productprice" column
-left = left.drop(columns=newpricecol)
+#rename existing "productprice"/"saleprice" column
+left.rename(inplace=True, columns={newpricecol: "oldprice"})
 
 #use pandas to merge
-joined = pd.merge(left, right, how="left", left_on="productcode", right_on="Item No")
+joined = pd.merge(left, right, how="left", left_on="productcode", right_on=productcode_right)
 
 #get name of column where price will be updated
 updatecol = input("Enter name of column containing new price ")
