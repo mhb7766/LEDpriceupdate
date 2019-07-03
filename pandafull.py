@@ -9,7 +9,6 @@ import time
 
 #############
 #TODO
-#-check for zero price
 #-compare priceold to pricenew to detect changes
 #-finish README
 #############
@@ -44,7 +43,7 @@ newprice=askopenfilename()
 productcode_right = input("Enter name of column containing productcode on new price sheet: ")
 
 #get name of column where price will be updated
-updatecol = input("Enter name of column containing new price ")
+updatecol = input("Enter name of the column containing new price ")
 
 #read datasets
 left = pd.read_csv(currentprice)
@@ -52,7 +51,6 @@ right = pd.read_csv(newprice)
 
 #delete rows containing zero price
 right = right[right[updatecol] != 0]
-print(right)
 
 #rename existing "productprice"/"saleprice" column
 left.rename(inplace=True, columns={newpricecol: "oldprice"})
