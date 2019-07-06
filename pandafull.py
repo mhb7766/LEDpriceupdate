@@ -49,7 +49,7 @@ updatecol = input("Enter name of the column containing new price ")
 left = pd.read_csv(currentprice)
 right = pd.read_csv(newprice)
 
-#delete rows containing zero price
+#delete rows containing zero pric
 right = right[right[updatecol] != 0]
 
 #rename existing "productprice"/"saleprice" column
@@ -73,6 +73,9 @@ unmatched = str(len(not_updated.index))
 updated = joined[pd.notnull(joined[newpricecol])]
 #get count for matched records
 matched = str(len(updated.index))
+
+#check for price changes among matched records
+matched = 
 
 #create unique filename
 timestr = time.strftime("%m%d%Y-%H%M%S")
