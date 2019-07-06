@@ -29,5 +29,13 @@ Running the program requires installing Python along with several packages
   -the 'updated' file can be immediately uploaded to the website; the price has been marked up based on the information you entered earlier in the program. keep in mind only SKUs included on the sheet will be updated. this program will not update prices for options or adders.
   
   -the 'not_updated' file is generated for you to keep track of listings that still need to be worked on
+  
+  ## Future Improvements
+  
+  This program is a work-in-progress. I am working on implementing these improvements in the future
+  
+  -Deal with "-" vs "/" discrepency in SKUs. Currently the program can only deal with exact matches and will not update records where a backslash has been replaced with a dash due to Volusion's character restrictions 
+  
+  -Identify which prices have changed and which have not. Currently the 'updated' .csv that the program outputs contains all matches, including those whose price did not change. I'd like the 'updated' .csv to contain only listings that have changed. This way the user will not have to search the full list for price changes on adders. 
 
 
