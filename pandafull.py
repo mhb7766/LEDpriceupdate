@@ -11,6 +11,8 @@ import time
 #TODO
 #-compare priceold to pricenew to detect changes
 #-finish README
+#-detect $ sign and remove if necessary
+#-replace '/' with '-' in new price sheet
 #############
 
 #set directory
@@ -19,7 +21,7 @@ os.chdir('c:\\users\\mike\\pictures\\led')
 #set update mode
 flag = 0
 while flag == 0:
-	temp = input("Which price are you updating? Enter \"P\" for productprice and \"S\" for saleprice: ")
+	temp = input("Which price are you updating? Enter \"p\" for productprice and \"s\" for saleprice: ")
 	if temp.lower() == "s":
 		newpricecol = "saleprice"
 		flag = 1
@@ -43,7 +45,7 @@ newprice=askopenfilename()
 productcode_right = input("Enter name of column containing productcode on new price sheet: ")
 
 #get name of column where price will be updated
-updatecol = input("Enter name of the column containing new price ")
+updatecol = input("Enter name of the column containing new price: ")
 
 #read datasets
 left = pd.read_csv(currentprice)
@@ -75,7 +77,7 @@ updated = joined[pd.notnull(joined[newpricecol])]
 matched = str(len(updated.index))
 
 #check for price changes among matched records
-matched = 
+
 
 #create unique filename
 timestr = time.strftime("%m%d%Y-%H%M%S")
