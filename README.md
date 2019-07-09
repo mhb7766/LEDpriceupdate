@@ -16,7 +16,7 @@ Running the program requires installing Python along with several packages
 
 -The full program is called pandafull.py
 
--Before you begin, download the current listings from the website as a .csv and the new price sheet as .csv 
+-Before you begin, download the current listings from the website as a .csv and the new price sheet as .csv. FILES MUST BE IN .CSV FORMAT!!! Convert any .xlsx files to .csv before running. 
 
 -Open the Windows command line and navigate to the folder where you downloaded pandasfull.py
 
@@ -33,8 +33,6 @@ Running the program requires installing Python along with several packages
   ## Future Improvements
   
   This program is a work-in-progress. I am working on implementing these improvements in the future
-  
-  -Deal with "-" vs "/" discrepency in SKUs. Currently the program can only deal with exact matches and will not update records where a backslash has been replaced with a dash due to Volusion's character restrictions 
   
   -Identify which prices have changed and which have not. Currently the 'updated' .csv that the program outputs contains all matches, including those whose price did not change. I'd like the 'updated' .csv to contain only listings that have changed. This way the user will not have to search the full list for price changes on adders. 
 
