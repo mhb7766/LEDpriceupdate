@@ -6,12 +6,13 @@ from tkinter import messagebox
 import pandas as pd
 #from pathlib import path
 import time
+import numpy as np
 
 #############
 #TODO
 #-compare priceold to pricenew to detect changes
 #-finish README
-#-detect $ sign and remove if necessary
+#-detect $ sign and remove if necessary, convert to float
 #-replace '/' with '-' in new price sheet
 #############
 
@@ -41,17 +42,24 @@ input("Hit enter to choose new price sheet ")
 Tk().withdraw()
 newprice=askopenfilename()
 
+#read datasets
+left = pd.read_csv(currentprice, encoding = "ISO-8859-1")
+right = pd.read_csv(newprice, encoding = "ISO-8859-1")
+
 #get column name for product code on new price sheet
 productcode_right = input("Enter name of column containing productcode on new price sheet: ")
 
 #get name of column where price will be updated
 updatecol = input("Enter name of the column containing new price: ")
 
-#read datasets
-left = pd.read_csv(currentprice)
-right = pd.read_csv(newprice)
+#remove dollar signs and commas and convert to float
+right[updatecol] = right[updatecol].str.replace(',', '')
+right[updatecol] = right[updatecol].str.replace('$', '')
+#right[updatecol] = right[updatecol].astype(float)
+right[updatecol] = pd.to_numeric(right[updatecol], errors='coerce')
+right = right.replace(np.nan, 0, regex=True)
 
-#delete rows containing zero pric
+#delete rows containing zero price
 right = right[right[updatecol] != 0]
 
 #rename existing "productprice"/"saleprice" column
