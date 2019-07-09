@@ -46,11 +46,14 @@ newprice=askopenfilename()
 left = pd.read_csv(currentprice, encoding = "ISO-8859-1")
 right = pd.read_csv(newprice, encoding = "ISO-8859-1")
 
+#make columns in 'right' dataframe lowercase
+right.columns = map(str.lower, right.columns)
+
 #get column name for product code on new price sheet
-productcode_right = input("Enter name of column containing productcode on new price sheet: ")
+productcode_right = input("Enter name of column containing productcode on new price sheet: ").lower()
 
 #get name of column where price will be updated
-updatecol = input("Enter name of the column containing new price: ")
+updatecol = input("Enter name of the column containing new price: ").lower()
 
 #remove dollar signs and commas and convert to float
 if right[updatecol].dtype == np.object:
