@@ -53,11 +53,15 @@ productcode_right = input("Enter name of column containing productcode on new pr
 updatecol = input("Enter name of the column containing new price: ")
 
 #remove dollar signs and commas and convert to float
-right[updatecol] = right[updatecol].str.replace(',', '')
-right[updatecol] = right[updatecol].str.replace('$', '')
-#right[updatecol] = right[updatecol].astype(float)
-right[updatecol] = pd.to_numeric(right[updatecol], errors='coerce')
+if right[updatecol].dtype == np.object:
+	right[updatecol] = right[updatecol].str.replace(',', '')
+	right[updatecol] = right[updatecol].str.replace('$', '')
+	right[updatecol] = pd.to_numeric(right[updatecol], errors='coerce')
+
 right = right.replace(np.nan, 0, regex=True)
+
+#replace "/" with "-" in new price sheet to match more records
+right[productcode_right] = right[productcode_right].str.replace('/', '-')
 
 #delete rows containing zero price
 right = right[right[updatecol] != 0]
