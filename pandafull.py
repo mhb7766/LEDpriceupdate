@@ -38,7 +38,7 @@ markup = float(input("Enter markup scalar (eg 1.33): "))
 input("Hit enter to choose current listings file ")
 Tk().withdraw()
 currentprice=askopenfilename()
-print(os.path.split(currentprice))
+#print(os.path.split(currentprice))
 
 filetype = 0
 
@@ -77,8 +77,40 @@ right = right[right[updatecol] != 0]
 #narrow "right" dataframe to two necessary rows
 right = right[[productcode_right, updatecol]]
 
+#make some replacements in "right" dataframe to match more records
+#get size
+size = len(right.index)
+
+#array for color temps
+temps = ("27K", "3K", "35K", "4K", "5K")
+
+def expand_temps(size1, row1, oldtext, newtext):
+	right.loc[size1] = [row1[productcode_right].replace(oldtext, newtext), row1[updatecol]]
+
+#initial replacement to correct leading digits (costless problem)
+#******STILL NEED TO GET EXACT leading digit, currently hardcoded to "07"***********
+for l, row in right.iterrows():
+	if re.search('^[0-9]{2}-', row[productcode_right]):
+		size = size + 1
+		expand_temps(size, row, "07-", "")
+
+#search for errors in product codes and replace strings
+for i, row in right.iterrows():
+	#costless "(X)K" cases
+	if re.search('\(X\)K', row[productcode_right]):
+		for j in temps:
+			size = size + 1
+			expand_temps(size, row, "(X)K", j)
+	#costless "*K" cases
+	if re.search('\*K', row[productcode_right]):
+		for k in temps:
+			size = size + 1
+			expand_temps(size, row, "*K", k)
+
 #rename existing "productprice"/"saleprice" column
 left.rename(inplace=True, columns={newpricecol: "oldprice"})
+
+print(right)
 
 #use pandas to merge
 joined = pd.merge(left, right, how="left", left_on="productcode", right_on=productcode_right)
