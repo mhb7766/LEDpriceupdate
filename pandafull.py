@@ -12,8 +12,9 @@ import numpy as np
 #TODO
 #-compare priceold to pricenew to detect changes
 #-finish README
-#-detect $ sign and remove if necessary, convert to float
-#-replace '/' with '-' in new price sheet
+#-remove "##-" from beginning of costless pricesheet
+#-remove blank rows from beginning of .csv
+#-turn "(X)K" into "3K", "35K", ... , "5K"
 #############
 
 #set directory
@@ -37,7 +38,11 @@ markup = float(input("Enter markup scalar (eg 1.33): "))
 input("Hit enter to choose current listings file ")
 Tk().withdraw()
 currentprice=askopenfilename()
+print(os.path.split(currentprice))
 
+filetype = 0
+
+#while filetype == 0:
 input("Hit enter to choose new price sheet ")
 Tk().withdraw()
 newprice=askopenfilename()
@@ -46,7 +51,7 @@ newprice=askopenfilename()
 left = pd.read_csv(currentprice, encoding = "ISO-8859-1")
 right = pd.read_csv(newprice, encoding = "ISO-8859-1")
 
-#make columns in 'right' dataframe lowercase
+#make columns in 'right' dataframe lowercase so input in case insensitive
 right.columns = map(str.lower, right.columns)
 
 #get column name for product code on new price sheet
