@@ -74,6 +74,9 @@ right[productcode_right] = right[productcode_right].str.replace('/', '-')
 #delete rows containing zero price
 right = right[right[updatecol] != 0]
 
+#narrow "right" dataframe to two necessary rows
+right = right[[productcode_right, updatecol]]
+
 #rename existing "productprice"/"saleprice" column
 left.rename(inplace=True, columns={newpricecol: "oldprice"})
 
