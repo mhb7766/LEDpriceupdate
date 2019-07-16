@@ -15,24 +15,28 @@ right = right[[productcode_right, updatecol]]
 #get size
 size = len(right.index)
 
+#array for color temps
+temps = ("27K", "30K", "35K", "40K", "50K")
+
+def expand_temps(size1, row1, oldtext, newtext):
+	right.loc[size1] = [row1[productcode_right].replace(oldtext, newtext), row1[updatecol]]
+
+#initial replacement to correct leading digits
+for l, row in right.iterrows():
+	if re.search('^[0-9]{2}-', row[productcode_right]):
+		size = size + 1
+		expand_temps(size, row, "07-", "")
+
+#search for errors in product codes and replace strings
 for i, row in right.iterrows():
 	if re.search('\(X\)K', row[productcode_right]):
-		size = size + 1
-		right.loc[size] = [row[productcode_right].replace("(X)K", "27K"), row[updatecol]]
-		size = size + 1
-		right.loc[size] = [row[productcode_right].replace("(X)K", "3K"), row[updatecol]]
-		size = size + 1
-		right.loc[size] = [row[productcode_right].replace("(X)K", "35K"), row[updatecol]]
-		size = size + 1
-		right.loc[size] = [row[productcode_right].replace("(X)K", "4K"), row[updatecol]]
-		size = size + 1
-		right.loc[size] = [row[productcode_right].replace("(X)K", "5K"), row[updatecol]]
+		for j in temps:
+			size = size + 1
+			expand_temps(size, row, "(X)K", j)
+	if re.search('\*K', row[productcode_right]):
+		for k in temps:
+			size = size + 1
+			expand_temps(size, row, "*K", k)
 
 print(right)
-
-#with open("onsite_6-18.csv", "r") as rfh, open("newpriceshort.csv", "a") as wfh:
-#	r = csv.reader(rfh, delimiter=',')
-#	w = csv.writer(wfh)
-#	w.writerow("********TEST************, *****************MAXLITE TEST, 100, 100, 100, ")
-#	for row in r:
 		
