@@ -109,6 +109,11 @@ for i, row in right.iterrows():
 		for k in temps:
 			size = size + 1
 			expand_temps(size, row, "*K", k)
+	#costless "-K" cases
+	if re.search('\-K', row[productcode_right]):
+		for k in temps:
+			size = size + 1
+			expand_temps(size, row, "-K", "-"+k)
 
 #rename existing "productprice"/"saleprice" column
 left.rename(inplace=True, columns={newpricecol: "oldprice"})
