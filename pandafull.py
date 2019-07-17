@@ -60,6 +60,9 @@ productcode_right = input("Enter name of column containing productcode on new pr
 #get name of column where price will be updated
 updatecol = input("Enter name of the column containing new price: ").lower()
 
+#convert right[productcode_right] to string
+right[productcode_right] = right[productcode_right].astype(str)
+
 #remove dollar signs and commas and convert to float
 if right[updatecol].dtype == np.object:
 	right[updatecol] = right[updatecol].str.replace(',', '')
@@ -92,7 +95,7 @@ def expand_temps(size1, row1, oldtext, newtext):
 for l, row in right.iterrows():
 	if re.search('^[0-9]{2}-', row[productcode_right]):
 		size = size + 1
-		expand_temps(size, row, "07-", "")
+		expand_temps(size, row, row[productcode_right][:3], "")
 
 #search for errors in product codes and replace strings
 for i, row in right.iterrows():
@@ -109,8 +112,6 @@ for i, row in right.iterrows():
 
 #rename existing "productprice"/"saleprice" column
 left.rename(inplace=True, columns={newpricecol: "oldprice"})
-
-print(right)
 
 #use pandas to merge
 joined = pd.merge(left, right, how="left", left_on="productcode", right_on=productcode_right)

@@ -16,7 +16,7 @@ right = right[[productcode_right, updatecol]]
 size = len(right.index)
 
 #array for color temps
-temps = ("27K", "30K", "35K", "40K", "50K")
+temps = ("27K", "3K", "35K", "4K", "5K")
 
 def expand_temps(size1, row1, oldtext, newtext):
 	right.loc[size1] = [row1[productcode_right].replace(oldtext, newtext), row1[updatecol]]
@@ -25,7 +25,7 @@ def expand_temps(size1, row1, oldtext, newtext):
 for l, row in right.iterrows():
 	if re.search('^[0-9]{2}-', row[productcode_right]):
 		size = size + 1
-		expand_temps(size, row, "07-", "")
+		expand_temps(size, row, row[productcode_right][:3], "")
 
 #search for errors in product codes and replace strings
 for i, row in right.iterrows():
