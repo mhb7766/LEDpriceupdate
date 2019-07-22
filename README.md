@@ -22,12 +22,12 @@ In most cases, you will need to do some cleaning of the data before the program 
 
 -all relevant headers must be in the same row
 
+-".csv" file types do not support multiple sheets; you will need to condense data into one sheet before running the program
+
 
 ## Running the Program
 
 -The full program is called pandafull.py
-
--Before you begin, download the current listings from the website as a .csv and the new price sheet as .csv. FILES MUST BE IN .CSV FORMAT!!! Convert any .xlsx files to .csv before running. 
 
 -Open the Windows command line and navigate to the folder where you downloaded pandasfull.py
 
@@ -35,7 +35,7 @@ In most cases, you will need to do some cleaning of the data before the program 
 
 -The program will give prompts when information is needed to join the two .csv files and mark the prices up accordingly
 
--The program creates two files 'updated' and 'not_updated'
+-The program generates two files 'updated' and 'not_updated'
   
   -the 'updated' file can be immediately uploaded to the website; the price has been marked up based on the information you entered earlier in the program. keep in mind only SKUs included on the sheet will be updated. this program will not update prices for options or adders.
   
