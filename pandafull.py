@@ -40,8 +40,6 @@ Tk().withdraw()
 currentprice=askopenfilename()
 #print(os.path.split(currentprice))
 
-filetype = 0
-
 #while filetype == 0:
 input("Hit enter to choose new price sheet ")
 Tk().withdraw()
