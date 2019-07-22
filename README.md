@@ -5,11 +5,22 @@ This purpose of this program is to generate a .csv with updated product prices t
 
 Running the program requires installing Python along with several packages
 -Python 3: https://www.python.org/download/releases/3.0/
+  
   -I used Python version 3.7.2 when creating this program
   
 -The following Python packages: os, tkinter, pandas, time
 
 -Instructions on installing a python package: https://packaging.python.org/tutorials/installing-packages/
+
+## Preparing Data for use
+
+In most cases, you will need to do some cleaning of the data before the program can be run.
+
+-Convert price sheet to .csv
+
+-header row must be on the first line of the file
+
+-all relevant headers must be in the same row
 
 
 ## Running the Program
