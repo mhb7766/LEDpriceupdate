@@ -48,6 +48,9 @@ right = pd.read_csv(newprice, encoding = "ISO-8859-1")
 #make columns in 'right' dataframe lowercase so input in case insensitive
 right.columns = map(str.lower, right.columns)
 
+#remove newline from column names in 'right' dataframe
+right.columns = map( lambda s: s.replace('\n',' '), right.columns)
+
 #get column name for product code on new price sheet
 productcode_right = input("Enter name of column containing productcode on new price sheet: ").lower()
 
@@ -74,10 +77,9 @@ right = right[right[updatecol] != 0]
 #narrow "right" dataframe to two necessary rows
 right = right[[productcode_right, updatecol]]
 
-#remove newline from column names in 'right' dataframe
-right.columns = [productcode_right.replace('\n',' '), updatecol.replace('\n',' ')]
-
-#make some replacements in "right" dataframe to match more records
+################
+# make some replacements in "right" dataframe to match more records
+################
 #get size
 size = len(right.index)
 

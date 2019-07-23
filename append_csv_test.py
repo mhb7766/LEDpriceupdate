@@ -12,6 +12,11 @@ right = pd.read_csv("C:\\Users\\mike\\Pictures\\led\\pricesheets\\samples\\westg
 #narrow "right" dataframe to two necessary rows
 right = right[[productcode_right, updatecol]]
 
+#remove newline from column names in 'right' dataframe
+#right.columns = [productcode_right.replace('\n',' '), updatecol.replace('\n',' ')]
+
+right.columns = map( lambda s: s.replace('\n',' '), right.columns)
+
 print(right.columns)
 
 
