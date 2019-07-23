@@ -3,15 +3,19 @@ import pandas as pd
 import numpy as np
 import re
 
-productcode_right = "Item No"
-updatecol = "Price A"
+productcode_right = "ITEMNO."
+updatecol = "IMAP\nPRICE"
 
 #read csv
-right = pd.read_csv("newpriceshort.csv")
+right = pd.read_csv("C:\\Users\\mike\\Pictures\\led\\pricesheets\\samples\\westgate_imap.csv")
 
 #narrow "right" dataframe to two necessary rows
 right = right[[productcode_right, updatecol]]
 
+print(right.columns)
+
+
+"""
 #get size
 size = len(right.index)
 
@@ -43,5 +47,4 @@ for i, row in right.iterrows():
 			size = size + 1
 			expand_temps(size, row, "-K", "-"+k)
 
-print(right)
-		
+print(right) """

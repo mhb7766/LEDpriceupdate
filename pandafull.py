@@ -4,17 +4,14 @@ from tkinter import *
 from tkinter.filedialog import askopenfilename
 from tkinter import messagebox
 import pandas as pd
-#from pathlib import path
 import time
 import numpy as np
 
 #############
 #TODO
 #-compare priceold to pricenew to detect changes
-#-finish README
-#-remove "##-" from beginning of costless pricesheet
+#-read .xlsx files
 #-remove blank rows from beginning of .csv
-#-turn "(X)K" into "3K", "35K", ... , "5K"
 #############
 
 #set directory
@@ -38,7 +35,6 @@ markup = float(input("Enter markup scalar (eg 1.33): "))
 input("Hit enter to choose current listings file ")
 Tk().withdraw()
 currentprice=askopenfilename()
-#print(os.path.split(currentprice))
 
 #while filetype == 0:
 input("Hit enter to choose new price sheet ")
@@ -78,6 +74,9 @@ right = right[right[updatecol] != 0]
 #narrow "right" dataframe to two necessary rows
 right = right[[productcode_right, updatecol]]
 
+#remove newline from column names in 'right' dataframe
+right.columns = [productcode_right.replace('\n',' '), updatecol.replace('\n',' ')]
+
 #make some replacements in "right" dataframe to match more records
 #get size
 size = len(right.index)
@@ -89,7 +88,6 @@ def expand_temps(size1, row1, oldtext, newtext):
 	right.loc[size1] = [row1[productcode_right].replace(oldtext, newtext), row1[updatecol]]
 
 #initial replacement to correct leading digits (costless problem)
-#******STILL NEED TO GET EXACT leading digit, currently hardcoded to "07"***********
 for l, row in right.iterrows():
 	if re.search('^[0-9]{2}-', row[productcode_right]):
 		size = size + 1
