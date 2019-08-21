@@ -95,23 +95,33 @@ for l, row in right.iterrows():
 		size = size + 1
 		expand_temps(size, row, row[productcode_right][:3], "")
 
+case2 = 0
+case3 = 0
+case4 = 0
+
 #search for errors in product codes and replace strings
 for i, row in right.iterrows():
 	#costless "(X)K" cases
 	if re.search('\(X\)K', row[productcode_right]):
+		case2 = 1+case2
 		for j in temps:
 			size = size + 1
 			expand_temps(size, row, "(X)K", j)
 	#costless "*K" cases
 	if re.search('\*K', row[productcode_right]):
-		for k in temps:
+		case3 = 1+case3
+		for j in temps:
 			size = size + 1
-			expand_temps(size, row, "*K", k)
+			expand_temps(size, row, "*K", j)
 	#costless "-K" cases
 	if re.search('\-K', row[productcode_right]):
-		for k in temps:
+		case4 = 1+case4
+		for j in temps:
 			size = size + 1
-			expand_temps(size, row, "-K", "-"+k)
+			expand_temps(size, row, "-K", "-"+j)
+
+print("(X)K " + str(case2) + ", *K " + str(case3) + ", -K " + str(case4))
+
 
 #rename existing "productprice"/"saleprice" column
 left.rename(inplace=True, columns={newpricecol: "oldprice"})
@@ -152,7 +162,10 @@ window = Tk()
 window.wm_withdraw()
 
 #build message
-countmessage = "Success!\n" + matched + " listings matched\n" + unmatched + " listings unmatched\n" + "Remember to update adder prices for matched products. This program only updates indentical SKU matches and will not change options" 
+if int(matched) > 0:
+	countmessage = "Success!\n" + matched + " listings matched\n" + unmatched + " listings unmatched\n" + "Remember to update adder prices for matched products. This program only updates indentical SKU matches and will not change option prices" 
+else:
+	countmessage = "The program was unable to find any matches. Email Michael at m.hillenbrand01@gmail.com with questions"
 
 #message at x:200,y:200
 window.geometry("1x1+200+200") #remember its .geometry("WidthxHeight(+or-)X(+or-)Y")
