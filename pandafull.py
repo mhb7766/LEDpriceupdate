@@ -60,6 +60,9 @@ updatecol = input("Enter name of the column containing new price: ").lower()
 #convert right[productcode_right] to string
 right[productcode_right] = right[productcode_right].astype(str)
 
+#remove leading and trailing spaces from productcode data
+right[productcode_right] = right[productcode_right].str.strip()
+
 #remove dollar signs and commas and convert to float
 if right[updatecol].dtype == np.object:
 	right[updatecol] = right[updatecol].str.replace(',', '')
