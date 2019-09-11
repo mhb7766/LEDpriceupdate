@@ -15,7 +15,7 @@ import numpy as np
 #############
 
 #set directory
-os.chdir('c:\\users\\mike\\pictures\\led')
+#os.chdir('c:\\users\\mike\\pictures\\led')
 
 #set update mode
 flag = 0
@@ -123,7 +123,8 @@ for i, row in right.iterrows():
 			size = size + 1
 			expand_temps(size, row, "-K", "-"+j)
 
-print("(X)K " + str(case2) + ", *K " + str(case3) + ", -K " + str(case4))
+#debugging
+#print("(X)K " + str(case2) + ", *K " + str(case3) + ", -K " + str(case4))
 
 
 #rename existing "productprice"/"saleprice" column
@@ -153,8 +154,8 @@ matched = str(len(updated.index))
 
 #create unique filename
 timestr = time.strftime("%m%d%Y-%H%M%S")
-updated_filename = "updated_listings" + timestr + ".csv"
-not_updated_filename = "not_updated" + timestr + ".csv"
+updated_filename = "updated_" + newpricecol + "_" + timestr + ".csv"
+not_updated_filename = "not_updated" + newpricecol + "_" + timestr + ".csv"
 
 #convert pandas dataframe to .csv and save (keeps only 'productcode and product price')
 updated_csv = updated.to_csv(path_or_buf=updated_filename, columns=["productcode",newpricecol], index=False)
