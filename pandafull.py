@@ -126,12 +126,24 @@ for i, row in right.iterrows():
 #debugging
 #print("(X)K " + str(case2) + ", *K " + str(case3) + ", -K " + str(case4))
 
+#remove duplicates from new price sheet (right)
+right = right.drop_duplicates();
 
 #rename existing "productprice"/"saleprice" column
 left.rename(inplace=True, columns={newpricecol: "oldprice"})
 
+#DEBUGGING - PRINT DATA FRAMES
+#print("Onsite (left df)")
+#print(left)
+#print("New Pricesheet (right df)")
+#print(right)
+
 #use pandas to merge
 joined = pd.merge(left, right, how="left", left_on="productcode", right_on=productcode_right)
+#joined = joined.drop_duplicates()
+
+#print("joined df")
+#print(joined)
 
 #calculate marked up price
 joined[updatecol] = joined[updatecol].multiply(markup)
@@ -155,7 +167,7 @@ matched = str(len(updated.index))
 #create unique filename
 timestr = time.strftime("%m%d%Y-%H%M%S")
 updated_filename = "updated_" + newpricecol + "_" + timestr + ".csv"
-not_updated_filename = "not_updated" + newpricecol + "_" + timestr + ".csv"
+not_updated_filename = "not_updated_" + newpricecol + "_" + timestr + ".csv"
 
 #convert pandas dataframe to .csv and save (keeps only 'productcode and product price')
 updated_csv = updated.to_csv(path_or_buf=updated_filename, columns=["productcode",newpricecol], index=False)
