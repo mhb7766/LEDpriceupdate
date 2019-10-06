@@ -132,21 +132,22 @@ right = right.drop_duplicates();
 #rename existing "productprice"/"saleprice" column
 left.rename(inplace=True, columns={newpricecol: "oldprice"})
 
-#DEBUGGING - PRINT DATA FRAMES
-#print("Onsite (left df)")
-#print(left)
-#print("New Pricesheet (right df)")
-#print(right)
-
 #use pandas to merge
 joined = pd.merge(left, right, how="left", left_on="productcode", right_on=productcode_right)
-#joined = joined.drop_duplicates()
-
-#print("joined df")
-#print(joined)
 
 #calculate marked up price
 joined[updatecol] = joined[updatecol].multiply(markup)
+
+#for i, row in joined.iterrows():
+#	if re.search('T8-EZ3-2FT', row['productcode']):
+#		joined.loc[i, updatecol]
+
+#hardcoded fix for westgate "case" items
+for i, row in joined.iterrows():
+	if re.search('T8-EZ3-2FT|T8-EZ5', row['productcode']):
+		joined.loc[i, updatecol] = row[updatecol] * 12.
+	elif re.search('T8-EZ3-4FT', row['productcode']):
+		joined.loc[i, updatecol] = row[updatecol] * 25.
 
 #rename price column
 joined.rename(inplace=True, columns={updatecol: newpricecol})
