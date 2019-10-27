@@ -142,7 +142,7 @@ joined[updatecol] = joined[updatecol].multiply(markup)
 #	if re.search('T8-EZ3-2FT', row['productcode']):
 #		joined.loc[i, updatecol]
 
-#hardcoded fix for westgate "case" items
+#hardcoded 'case quantity' correction for westgate products
 for i, row in joined.iterrows():
 	if re.search('T8-EZ3-2FT|T8-EZ5', row['productcode']):
 		joined.loc[i, updatecol] = row[updatecol] * 12.
