@@ -1,5 +1,5 @@
 # LED Price Update Script
-This purpose of this program is to generate a .csv with updated product prices to be uploaded to the ecommerce site. You will need a list of current prices and a new price sheet for it to work. It works by merging data from existing price sheets and new price sheets. Currently, this program will only update records where the SKU or product code on the new price sheet exactly matches that of the existing price sheet. 
+This purpose of this program is to generate a .csv with updated product prices to be uploaded to the ecommerce site. You will need a list of current prices and a new price sheet for it to work. It works by merging data from existing price sheets and new price sheets.
 
 ## Getting Started
 
