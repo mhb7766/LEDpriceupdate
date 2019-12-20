@@ -41,9 +41,22 @@ input("Hit enter to choose new price sheet ")
 Tk().withdraw()
 newprice=askopenfilename()
 
+#determine delimiter of new price sheet
+with open(newprice) as f:
+	line = f.readline()
+
+if len(re.split(',',line)) > 1:
+	delim = ','
+elif len(re.split('\t',line)) > 1:
+	delim = '\t'
+elif len(re.split(' ',line)) > 1:
+	delim = ' '
+
+f.close()
+
 #read datasets
 left = pd.read_csv(currentprice, encoding = "ISO-8859-1")
-right = pd.read_csv(newprice, encoding = "ISO-8859-1")
+right = pd.read_csv(newprice, encoding = "ISO-8859-1", sep=delim, engine='python')
 
 #make columns in 'right' dataframe lowercase so input in case insensitive
 right.columns = map(str.lower, right.columns)
