@@ -12,7 +12,7 @@ Running the program requires installing Python along with several packages
 
 -Instructions on installing a python package: https://packaging.python.org/tutorials/installing-packages/
 
-## Preparing Data for use
+## Preparing Data For Use
 
 In most cases, you will need to do some cleaning of the data before the program can be run.
 
