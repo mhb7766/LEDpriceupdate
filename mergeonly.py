@@ -7,41 +7,54 @@ import pandas as pd
 import time
 
 #set directory
-os.chdir('c:\\users\\mike\\pictures\\led')
+os.chdir('c:\\users\\mike\\Documents\\led')
 
 #get files
-input("Hit enter to choose current listings file: ")
+input("Hit enter to choose left table: ")
 Tk().withdraw()
-currentprice=askopenfilename()
+l=askopenfilename()
 
-input("Hit enter to choose new price sheet: ")
+input("Hit enter to choose right table: ")
 Tk().withdraw()
-newprice=askopenfilename()
+r=askopenfilename()
 
-#get name of columns where price will be updated?
-saleprice_col = input("Enter column name containing new list price: ")
-hotprice_col = input("Enter column name containing new hot price: ")
+#get key values
+l_key = input("Enter key value from left table: ")
+r_key = input("Enter key value from right table: ")
 
-#get name of column with productcode from price sheet
-productcode_col = input("Enter column name containg productcode on price sheet: ")
+#detect delimiter of 'right'
+with open(r) as f:
+	line = f.readline()
+
+if len(re.split(',',line)) > 1:
+	delim = ','
+elif len(re.split('\t',line)) > 1:
+	delim = '\t'
+elif len(re.split(' ',line)) > 1:
+	delim = ' '
+
+f.close()
 
 #read datasets
-left = pd.read_csv(currentprice)
-right = pd.read_csv(newprice)
+left = pd.read_csv(l, encoding = "ISO-8859-1")
+right = pd.read_csv(r, encoding = "ISO-8859-1", sep=delim, engine='python')
+
+#make columns in 'right' dataframe lowercase so input in case insensitive
+right.columns = map(str.lower, right.columns)
+
+#remove newline from column names in 'right' dataframe
+right.columns = map( lambda s: s.replace('\n',' '), right.columns)
+
+######some edits to match more records########
+#replace "/" with "-" in new price sheet to match more records
+right[r_key] = right[r_key].str.replace('/', '-')
 
 #use pandas to merge
-joined = pd.merge(left, right, how="left", left_on="productcode", right_on=productcode_col)
-
-#rename price column
-joined.rename(inplace=True, columns={saleprice_col: "productpricenew"})
-joined.rename(inplace=True, columns={hotprice_col: "hotpricenew"})
-
-#delete records with no price update
-joined = joined[pd.notnull(joined['productpricenew'])]
+joined = pd.merge(left, right, how="inner", left_on=l_key, right_on=r_key)
 
 #create unique filename
 timestr = time.strftime("%m%d%Y-%H%M%S")
 filename = "merged" + timestr + ".csv"
 
 #convert pandas dataframe to .csv and save (keeps only 'productcode and product price')
-newsheet = joined.to_csv(path_or_buf=filename, columns=["productcode","productprice","saleprice","productpricenew","hotpricenew"], index=False)
+newsheet = joined.to_csv(path_or_buf=filename, index=False)
