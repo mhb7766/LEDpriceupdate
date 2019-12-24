@@ -41,7 +41,7 @@ input("Hit enter to choose new price sheet ")
 Tk().withdraw()
 newprice=askopenfilename()
 
-#determine delimiter of new price sheet
+#detect delimiter of new price sheet
 with open(newprice) as f:
 	line = f.readline()
 
