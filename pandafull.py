@@ -15,7 +15,7 @@ import numpy as np
 #############
 
 #set directory
-#os.chdir('c:\\users\\mike\\pictures\\led')
+os.chdir('c:\\users\\mike\\Documents\\LED\\PriceSheets')
 
 #set update mode
 flag = 0
@@ -29,7 +29,7 @@ while flag == 0:
 		flag = 1
 
 #set markup
-markup = float(input("Enter markup scalar (eg 1.33): "))
+markup = float(input("Enter markup scalar (eg 1.33 for 33% markup): "))
 
 #get files
 input("Hit enter to choose current listings file ")
@@ -58,7 +58,7 @@ f.close()
 left = pd.read_csv(currentprice, encoding = "ISO-8859-1")
 right = pd.read_csv(newprice, encoding = "ISO-8859-1", sep=delim, engine='python')
 
-#make columns in 'right' dataframe lowercase so input in case insensitive
+#make columns in 'right' dataframe lowercase so input is case insensitive
 right.columns = map(str.lower, right.columns)
 
 #remove newline from column names in 'right' dataframe
@@ -135,9 +135,6 @@ for i, row in right.iterrows():
 		for j in temps:
 			size = size + 1
 			expand_temps(size, row, "-K", "-"+j)
-
-#debugging
-#print("(X)K " + str(case2) + ", *K " + str(case3) + ", -K " + str(case4))
 
 #remove duplicates from new price sheet (right)
 right = right.drop_duplicates();
