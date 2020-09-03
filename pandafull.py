@@ -12,6 +12,7 @@ import numpy as np
 #-compare priceold to pricenew to detect changes
 #-read .xlsx files
 #-remove blank rows from beginning of .csv
+# TESTING BRANCH!!!
 #############
 
 #set directory
