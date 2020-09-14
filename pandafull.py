@@ -12,25 +12,39 @@ import numpy as np
 #-compare priceold to pricenew to detect changes
 #-read .xlsx files
 #-remove blank rows from beginning of .csv
-# TESTING BRANCH!!!
+#-if productprice = 0, or = blank, then productprice = saleprice*1.25
 #############
 
 #set directory
 os.chdir('c:\\users\\mike\\Documents\\LED\\PriceSheets')
 
 #set update mode
-flag = 0
-while flag == 0:
-	temp = input("Which price are you updating? Enter \"p\" for productprice and \"s\" for saleprice: ")
+temp = 'z'
+while temp != 's' and temp != 'p' and temp != 'b':
+	temp = input("Which price are you updating?\n\
+		\"p\" for productprice\n\
+		\"s\" for saleprice\n\
+		\"b\" for both\n\t\t".expandtabs(2))
 	if temp.lower() == "s":
 		newpricecol = "saleprice"
-		flag = 1
 	elif temp.lower() == "p":
 		newpricecol = "productprice"
-		flag = 1
+	elif temp.lower() == "b":
+		newpricecol = np.array(["productprice", "saleprice"])
 
-#set markup
-markup = float(input("Enter markup scalar (eg 1.33 for 33% markup): "))
+#set markup and column names
+if temp = 'b':
+	markup1 = float(input("Enter markup scalar for PRODUCT price (eg 1.33 for 33% markup: "))
+	markup2 = float(input("Enter markup scalar for SALE price (eg 1.25 for 25% markup: "))
+	#get product code from new price sheet
+	productcode_right = input("Enter name of column containing productcode on new price sheet: ").lower()
+	#get columns to update
+	updatecol1 = input("Enter name of the column containing new PRODUCT price: ").lower()
+	updatecol = input("Enter name of the column containing new SALE price: ").lower()
+else: 
+	markup1 = float(input("Enter markup scalar  for (eg 1.33 for 33% markup): "))
+	productcode_right = input("Enter name of column containing productcode on new price sheet: ").lower()
+	updatecol1 = input("Enter name of the column containing new price: ").lower()
 
 #get files
 input("Hit enter to choose current listings file ")
@@ -143,7 +157,7 @@ right = right.drop_duplicates();
 #rename existing "productprice"/"saleprice" column
 left.rename(inplace=True, columns={newpricecol: "oldprice"})
 
-#use pandas to merge
+#use pandas to merge (left join)
 joined = pd.merge(left, right, how="left", left_on="productcode", right_on=productcode_right)
 
 #calculate marked up price
