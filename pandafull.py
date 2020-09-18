@@ -1,8 +1,8 @@
 import os
-import tkinter as Tk
-from tkinter import *
+import tkinter as tk
+#from tkinter import *
 from tkinter.filedialog import askopenfilename
-from tkinter import messagebox
+#from tkinter import messagebox
 import pandas as pd
 import time
 import numpy as np
@@ -33,7 +33,7 @@ while temp != 's' and temp != 'p' and temp != 'b':
 		newpricecol = np.array(["productprice", "saleprice"])
 
 #set markup and column names
-if temp = 'b':
+if temp == 'b':
 	markup1 = float(input("Enter markup scalar for PRODUCT price (eg 1.33 for 33% markup: "))
 	markup2 = float(input("Enter markup scalar for SALE price (eg 1.25 for 25% markup: "))
 	#get product code from new price sheet
@@ -48,12 +48,12 @@ else:
 
 #get files
 input("Hit enter to choose current listings file ")
-Tk().withdraw()
+tk.Tk().withdraw()
 currentprice=askopenfilename()
 
 #while filetype == 0:
 input("Hit enter to choose new price sheet ")
-Tk().withdraw()
+tk.Tk().withdraw()
 newprice=askopenfilename()
 
 #detect delimiter of new price sheet
@@ -159,6 +159,11 @@ left.rename(inplace=True, columns={newpricecol: "oldprice"})
 
 #use pandas to merge (left join)
 joined = pd.merge(left, right, how="left", left_on="productcode", right_on=productcode_right)
+
+#scale price based on case size, if applicable
+#column is called customfield1
+#if 'customfield1' in joined.columns:  ## check if the row exists
+	#joined[]
 
 #calculate marked up price
 joined[updatecol] = joined[updatecol].multiply(markup)
